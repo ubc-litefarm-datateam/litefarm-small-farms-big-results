@@ -29,12 +29,9 @@ farm_level <- farm_level %>%
     # categorical variables
     farm_number        = as.factor(farm_number),
     country_name       = as.factor(country_name),
-    farm_bound_classes = as.factor(farm_bound_classes),
-    prod_area_classes  = as.factor(prod_area_classes),
-
-    # log predictors
     ln_prod_area  = log(farm_productive_area_ha),
-    ln_farm_bound = log(farm_boundary_ha),
+    
+    # ln_farm_bound removed here
     ln_farm_edge  = log(farm_edge_density_m_ha),
 
     # log responses (add 1 where needed to avoid log(0))
@@ -74,7 +71,7 @@ farm_area <- data.frame(
     to   = max(farm_level$ln_prod_area, na.rm = TRUE),
     length.out = 100
   ),
-  country_name = NA  # re.form = NA → fixed-effects only; random effects ignored
+  country_name = NA  # re.form = NA -> fixed-effects only
 )
 
 # Predicted values on log scale
@@ -234,9 +231,6 @@ fig_3 <- plot_grid(
 ) +
   theme(plot.margin = margin(10, 10, 10, 10))
 
-# Print in R session (optional)
-# fig_3
-
 # Save Figure 3 (adjust path if needed)
 ggsave(
   filename = "fig/Figure_3.jpg",
@@ -354,7 +348,14 @@ lip_edge <- ggplot(farm_level, aes(x = ln_farm_edge, y = ln_lip)) +
     linewidth = 1
   ) +
   labs(y = "Lipid (kg/ha)", x = "Edge density (m/ha)") +
-  base_edge_theme
+  base_edge_theme +
+  annotate(
+    "text",
+    x     = max(farm_level$ln_farm_edge, na.rm = TRUE),
+    y     = max(farm_level$ln_lip, na.rm = TRUE),
+    label = "NS",
+    hjust = 1, vjust = 0, size = 3
+  )
 
 # (e) Energy
 ener_edge <- ggplot(farm_level, aes(x = ln_farm_edge, y = ln_ener)) +
@@ -406,9 +407,6 @@ fig_4 <- plot_grid(
 ) +
   theme(plot.margin = margin(10, 10, 10, 10))
 
-# Print in R session (optional)
-# fig_4
-
 # Save Figure 4 (adjust path if needed)
 ggsave(
   filename = "fig/Figure_4.jpg",
@@ -418,7 +416,3 @@ ggsave(
   units    = "in",
   dpi      = 300
 )
-
-############################################################
-# End of script
-############################################################

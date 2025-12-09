@@ -4,7 +4,7 @@ This repository contains the R scripts, cleaned datasets, and figures used in th
 
 ***“Bigger isn’t better: Small productive lands and edge-rich systems outperform larger systems in crop diversity and productivity.”***
 
-Anahí R. Fernandeza, Hannah Wittman, Khanh Dao Duc, Riddhi Battu, Ilyas Siddique, Zia Mehrabi, Martina Propedo, & Lucas A. Garibaldi
+Anahí R. Fernandez, Hannah Wittman, Khanh Dao Duc, Riddhi Battu, Ilyas Siddique, Zia Mehrabi, Martina Propedo, & Lucas A. Garibaldi
 
 The analyses use anonymized LiteFarm plot- and farm-level data to evaluate how productive area and landscape structure relate to crop richness, yield, and nutritional outputs.
 

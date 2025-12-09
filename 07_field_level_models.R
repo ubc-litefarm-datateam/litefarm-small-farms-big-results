@@ -100,26 +100,16 @@ diagnostic_plots <- function(model, data, resp_var, x_for_resid, x_label = "") {
 # ---- 3.1 Richness ----
 mod_rich_full <- lmer(
   lnrich ~ lnarea * lnshape + (1 | country_name / farm_number),
-  data = field
+  data = field,
+  control = lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000))
 )
 
+# 2. Check if it is still singular (if this says TRUE, proceed to Option 2)
+isSingular(mod_rich_full) 
+
+# 3. Run dredge
 rich_dredge <- dredge(mod_rich_full)
 print(rich_dredge)
-
-# Best model chosen: lnrich ~ lnshape + (1 | country_name / farm_number)
-mod_rich_best <- lmer(
-  lnrich ~ lnshape + (1 | country_name / farm_number),
-  data = field
-)
-summary(mod_rich_best)
-
-diagnostic_plots(
-  model      = mod_rich_best,
-  data       = field,
-  resp_var   = "lnrich",
-  x_for_resid = "lnshape",
-  x_label    = "Shape index (log)"
-)
 
 # ---- 3.2 Yield ----
 mod_yield_full <- lmer(
@@ -264,27 +254,6 @@ diagnostic_plots(
   x_for_resid = "lnarea",
   x_label    = "Plot area (log ha)"
 )
-
-############################################################
-# 4. Models with edge density as the only fixed effect
-#    response ~ lnedge + (1 | country_name / farm_number)
-############################################################
-
-mod_rich_edge  <- lmer(lnrich  ~ lnedge + (1 | country_name / farm_number), data = field)
-mod_yield_edge <- lmer(lnyield ~ lnedge + (1 | country_name / farm_number), data = field)
-mod_prot_edge  <- lmer(lnprot  ~ lnedge + (1 | country_name / farm_number), data = field)
-mod_lip_edge   <- lmer(lnlip   ~ lnedge + (1 | country_name / farm_number), data = field)
-mod_ener_edge  <- lmer(lnener  ~ lnedge + (1 | country_name / farm_number), data = field)
-mod_carbs_edge <- lmer(lncarbs ~ lnedge + (1 | country_name / farm_number), data = field)
-mod_vitC_edge  <- lmer(lnvitC  ~ lnedge + (1 | country_name / farm_number), data = field)
-
-summary(mod_rich_edge)
-summary(mod_yield_edge)
-summary(mod_prot_edge)
-summary(mod_lip_edge)
-summary(mod_ener_edge)
-summary(mod_carbs_edge)
-summary(mod_vitC_edge)
 
 ############################################################
 # End of script

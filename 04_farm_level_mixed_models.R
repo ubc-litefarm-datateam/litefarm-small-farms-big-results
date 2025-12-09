@@ -26,12 +26,9 @@ farm_level <- farm_level %>%
     # identifiers and grouping factors
     farm_number        = as.factor(farm_number),
     country_name       = as.factor(country_name),
-    farm_bound_classes = as.factor(farm_bound_classes),
-    prod_area_classes  = as.factor(prod_area_classes),
 
     # log-transformed predictors
     ln_prod_area  = log(farm_productive_area_ha),
-    ln_farm_bound = log(farm_boundary_ha),
     ln_farm_edge  = log(farm_edge_density_m_ha),
 
     # log-transformed responses
@@ -78,8 +75,8 @@ plot(
 ############################################################
 
 fit_lmm_with_diagnostics <- function(resp, pred, data,
-                                     resp_label, pred_label,
-                                     main_prefix = "") {
+                                      resp_label, pred_label,
+                                      main_prefix = "") {
   # Build formula: resp ~ pred + (1|country_name)
   form <- as.formula(paste(resp, "~", pred, "+ (1|country_name)"))
 

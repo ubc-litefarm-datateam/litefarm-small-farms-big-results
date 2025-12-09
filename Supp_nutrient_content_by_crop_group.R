@@ -25,7 +25,6 @@ data <- read_excel("data/Jun6-2025_edge_density_data.xlsx")
 data <- data %>%
   mutate(
     crop_group          = as.factor(crop_group),
-    lifecycle           = as.factor(lifecycle),
     Crop_name_normalized = as.factor(Crop_name_normalized)
   )
 
@@ -35,7 +34,6 @@ nut_content <- data %>%
   select(
     Crop_name_normalized,
     crop_group,
-    lifecycle,
     `protein in grams per 100g`,
     `lipid/fat in grams per 100g`,
     `energy in kcal per 100g`,

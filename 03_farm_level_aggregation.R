@@ -42,7 +42,6 @@ farm_level <- field %>%
   summarise(
     farm_edge_density_m_ha  = first(farm_edge_density_m_ha),
     farm_productive_area_ha = first(farm_productive_area_ha),
-    farm_boundary_ha        = first(farm_site_boundary_area_ha),
 
     n_locations             = n_distinct(location_id),
     total_richness          = sum(richness, na.rm = TRUE),
@@ -62,19 +61,11 @@ farm_level <- field %>%
 
 # ---- 4. Classify farms by area and compute mean per-location metrics ----
 # Area classes based on Riddhi's thresholds:
-#   - farm_bound_classes: uses farm_boundary_ha
+#   - Area classes based on quartiles sample distribution
 #   - prod_area_classes:  uses farm_productive_area_ha
 
 farm_level <- farm_level %>%
   mutate(
-    # Boundary area classes
-    farm_bound_classes = case_when(
-      farm_boundary_ha < 9                        ~ "small",
-      farm_boundary_ha >= 9  & farm_boundary_ha <= 34 ~ "medium",
-      farm_boundary_ha > 34                       ~ "large",
-      TRUE                                        ~ NA_character_
-    ),
-
     # Productive area classes
     prod_area_classes = case_when(
       farm_productive_area_ha < 3.5                              ~ "small",
